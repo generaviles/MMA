@@ -1,0 +1,4 @@
+"0","ggmap(ensenada_map) +"
+"0","  geom_point(aes(longitud, latitud, color = per_ocu), data = cafeEnsenada) +"
+"0","  ggtitle(""Clientes Potenciales para Hasmik Bakery"") +"
+"0","  theme(plot.title = element_text(hjust = 0.5))"

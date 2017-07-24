@@ -1,0 +1,6 @@
+"0","library(readr)"
+"0","denue <- read_csv(""D:/Dropbox/MsC UABC/Grupo DAIH/Aliados/CETYS/cetys/1. raw databases/denue_02_csv/conjunto_de_datos/denue_inegi_02_.csv"")"
+"0","denue <- as.data.frame(denue)"
+"0","denueEnsenada <- denue[denue$municipio==""Ensenada"",]"
+"0","ggmap(ensenada_map) +"
+"0","  geom_point(aes(longitud, latitud), data = denueEnsenada)"

@@ -1,0 +1,96 @@
+---
+title: "Preproceso Evaluación de Impacto MMA"
+output: 
+  html_notebook: 
+    theme: flatly
+---
+
+##Sobre el Objetivo General
+
+- Ser un organismo **oficial** de la **Iglesia Adventista del Séptimo Día** que **agrupa** a los profesionales adventistas de la salud para **apoyar en el cumplimiento de la misión de la Iglesia** y en la **preparación del pueblo de Dios para la segunda venida de Cristo.**
+
+##Sobre los Objetivos Estratégicos Específcios
+
+1. Integrar, coordinar y vincular a los **profesionales adventistas de la salud.**
+1. Realizar intervenciones que ayuden al desarrollo de hábitos y conductas saludables en **los miembros de la iglesia.**
+1. Colaborar en la **Predicación del Evangelio utilizando el Mensaje de Salud** como el brazo derecho.
+1. Formar a los **miembros de la iglesia** como promotores de salud y esperanza.
+1. Promocionar en la **comunidad** la salud integral por medio de intervenciones.
+1. Vincular al MMA  con las **entidades académicas de la Iglesia Adventista del Séptimo Día** para intercambio de experiencias y trabajo colaborativo en proyectos específicos.
+1. **Apoyar** las iniciativas del **Departamento de Ministerios de la Salud** del Campo local, de la Unión Mexicana del Norte, de la División Interamericana y de la Red de Salud Quiero ¡Vivir Sano!
+
+##Sobre los Objetivos Específicos
+
+1. Asistir al 1% de la población urbana del territorio de Baja California.
+1. Asistir al 5% de la población rural del territorio de Baja California.
+1. Lograr la participación voluntaria del 50% de los profesionales adventistas, del territorio de Baja California, requeridos para ofrecer los servicios de salud intergral.
+1.Lograr la participación voluntaria del 30% de los miembros de las iglesias adventistas, del territorio de Baja California, requeridos para los servicios de apoyo.
+Acondicionar y utilizar al 50% de los templos adventistas, establecidos en el territorio de Baja California, para ofrecer los servicios de salud integral.
+1. Acondicionar y utilizar una unidad ambulatoria, en cada ciudad del territorio de Baja California, para ofrecer los servicios de salud integral.
+1. Trabajar *arduamente* con miras a establecer el primer Centro Médico Adventista de la región noroeste del país, con un alto énfasis en la prevención de la enfermedad y un estilo de vida saludable.
+
+```{r, message=FALSE, warning=FALSE}
+library(readr)
+objEsp <- as.data.frame(read_csv("D:/Dropbox/Personal/Missions/Ministerio Médico Adventista BC/MMA/data/objEsp.csv"))
+objEsp$comunidad <- as.numeric(objEsp$comunidad)
+objEsp$hermanos <- as.numeric(objEsp$hermanos)
+objEsp$iglesiaInst <- as.numeric(objEsp$iglesiaInst)
+objEsp$profSaludASD <- as.numeric(objEsp$profSaludASD)
+objEsp1 <- objEsp[-8,-6:-7]
+
+objEspTrans <- t(objEsp1)
+colnames(objEspTrans) <- c("Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete")
+objEspTrans <- objEspTrans[-1,]
+objEspTrans <- as.data.frame(objEspTrans)
+
+objEspTrans$Uno <- as.numeric(objEspTrans$Uno)
+objEspTrans$Dos <- as.numeric(objEspTrans$Dos)
+objEspTrans$Tres <- as.numeric(objEspTrans$Tres)
+objEspTrans$Cuatro <- as.numeric(objEspTrans$Cuatro)
+objEspTrans$Cinco <- as.numeric(objEspTrans$Cinco)
+objEspTrans$Seis <- as.numeric(objEspTrans$Seis)
+objEspTrans$Siete <- as.numeric(objEspTrans$Siete)
+
+objEspTrans <- objEspTrans-1
+
+objEspTrans[5,] <- colSums(objEspTrans)
+rownames(objEspTrans) <- c("comunidad", "hermanos", "iglesiaInst", "profSaludASD", "total")
+```
+
+```{r}
+library(ggplot2)
+barplot(colSums(objEspTrans),
+        main = "Objetivos Específicos y su Impacto sobre Públicos Meta",
+        col = "salmon")
+
+barplot(rowSums(objEspTrans[-5,]),
+        main = "Enfoque en Públicos Meta",
+        col = "pink",
+        ylab = "Conteo Acumulado")
+
+```
+
+##Actividades Reportadas.
+```{r}
+library(readr)
+library(reshape2)
+library(ggplot2)
+actividades <- as.data.frame(read_csv("D:/Dropbox/Personal/Missions/Ministerio Médico Adventista BC/MMA/data/actividades.csv", 
+    col_types = cols(`Consulta Med Gral` = col_number(), 
+        `Consulta Oftalmologia` = col_number(), 
+        Extracciones = col_number(), `Glucosa/TA` = col_number(), 
+        `Lentes presbicia` = col_number(), 
+        Limpiezas = col_number(), Masajes = col_number(), 
+        `Protesis parciales o totales` = col_number(), 
+        Psicologia = col_number(), `Qx Cataratas` = col_number(), 
+        `Qx Pterigion` = col_number(), `Restauraciones (Resinas o Amalgamas)` = col_number())))
+
+actividades.m <- melt(actividades[-6,], id.vars = "Year")
+
+ggplot(actividades.m, aes(Year, value)) +
+  geom_bar(aes(fill = variable), position = "dodge", stat = "identity") +
+  ggtitle("Actividades Anuales Reportadas por MMA") +
+  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+
+```
+

@@ -1,0 +1,6 @@
+"0","library(ggmap)"
+"0","ensenada <- c(lon = -116.6064, lat = 31.8603)"
+"0","# Get map at zoom level 13: "
+"0","ensenada_map <- get_map(ensenada, zoom = 12, scale = 1, maptype = ""roadmap"")"
+"0","# Plot map at zoom level 13"
+"0","ggmap(ensenada_map)"

@@ -1,0 +1,6 @@
+"0","ensenada_map <- get_map(ensenada, zoom = 12, scale = 1, maptype = ""roadmap"")"
+"0","ggmap(ensenada_map) +"
+"0","  geom_point(aes(long, lat, color = DISTRITO), data = iglesias[-13:-16,]) +"
+"0","  scale_size(20) +"
+"0","  ggtitle(""Iglesias Adventistas en Ensenada"") +"
+"0","  theme(plot.title = element_text(hjust = 0.5))"

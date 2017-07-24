@@ -1,0 +1,7 @@
+"0","library(ggmap)"
+"0","manzanasEns <- spTransform(manzanasEns, CRS(""+proj=longlat +datum=WGS84"")) "
+"0","ggmap(ensenada_map) +"
+"0","  geom_polygon(aes(x = long, y = lat),"
+"0","data = manzanasEns, color =""white"", fill =""orangered4"", alpha = .4, size = .2)"
+"2","Regions defined for each Polygons
+"

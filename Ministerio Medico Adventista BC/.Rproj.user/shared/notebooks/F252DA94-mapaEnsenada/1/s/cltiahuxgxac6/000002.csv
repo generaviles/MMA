@@ -1,0 +1,6 @@
+"0","#Histograma de Ganancias en Pesos"
+"0","hist(ventasDat$GANANCIA,"
+"0","     main = ""Historial de Ganancias en Pesos"","
+"0","     xlab = ""Pesos"","
+"0","     ylab = ""Frecuencia"","
+"0","     col = ""coral"")"

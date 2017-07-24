@@ -1,0 +1,89 @@
+---
+title: "Shapefile de Ensneada"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+##Geolocalización de Iglesias en Ensenada
+```{r, message=FALSE, warning=FALSE}
+library(ggmap)
+library(readr)
+
+ensenada <- c(lon = -116.6064, lat = 31.8603)
+
+# Get map at zoom level 13: 
+ensenadaMan_map <- get_map(ensenada, zoom = 9, scale = 1, maptype = "roadmap")
+
+#Agragando las iglesias
+iglesias <- read_csv("D:/Dropbox/Personal/Missions/Ministerio Médico Adventista BC/MMA/data/iglesias.csv", 
+    na = "NA")
+
+as.data.frame(iglesias)
+iglesias <- iglesias[,-1]
+
+#Integrando el Mapa
+ggmap(ensenadaMan_map) +
+  geom_point(aes(long, lat, color = DISTRITO), data = iglesias) +
+  ggtitle("Iglesias Adventistas en Ensenada y Maneadero") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+##Iglesias adventistas en Ensenada
+```{r, message=FALSE, warning=FALSE}
+ensenada_map <- get_map(ensenada, zoom = 12, scale = 1, maptype = "roadmap")
+
+ggmap(ensenada_map) +
+  geom_point(aes(long, lat, color = DISTRITO), data = iglesias[-13:-16,]) +
+  scale_size(20) +
+  ggtitle("Iglesias Adventistas en Ensenada") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+##Agregando Datos del INEGI
+###Importando los Datos
+```{r}
+library(rgdal)
+
+manzanasEns <- readOGR(dsn = "D:\\Dropbox\\Personal\\Missions\\Ministerio\ Médico Adventista BC\\MMA\\data\\mods", layer = "manzanasEns")
+proj4string(manzanasEns)
+
+comunidadesEns <- readOGR(dsn = "D:\\Dropbox\\Personal\\Missions\\Ministerio\ Médico Adventista BC\\MMA\\data\\mods", layer = "comunidadesEns")
+proj4string(comunidadesEns)
+
+puntosEns <- readOGR(dsn = "D:\\Dropbox\\Personal\\Missions\\Ministerio\ Médico Adventista BC\\MMA\\data\\mods", layer = "puntosEns")
+```
+
+###Agregando polígonos al mapa
+```{r}
+library(ggmap)
+manzanasEns <- spTransform(manzanasEns, CRS("+proj=longlat +datum=WGS84")) 
+
+ggmap(ensenada_map) +
+  geom_polygon(aes(x = long, y = lat),
+data = manzanasEns, color ="white", fill ="orangered4", alpha = .4, size = .2)
+
+```
+
+###Agregando puntos al mapa
+```{r, message=FALSE, warning=FALSE}
+library(ggmap)
+
+puntosEns <- spTransform(puntosEns, CRS("+proj=longlat +datum=WGS84"))
+
+ggmap(ensenada_map) +
+  geom_point(aes(x = coords.x1, y = coords.x2), data = data.frame(puntosEns)) +
+  ggtitle("Puntos Claves en Ensneada")
+```
+
+###Área urbana Ensenada
+```{r}
+urbEns <- readOGR(dsn = "D:\\Dropbox\\Personal\\Missions\\Ministerio\ Médico Adventista BC\\MMA\\data\\mods", layer = "urbEns")
+ggmap(get_map(ensenada, zoom = 5, scale = 1, maptype = "roadmap")) +
+  geom_polygon(aes(x = long, y = lat),
+data = urbEns, color ="white", fill ="orangered4")
+
+
+```
+

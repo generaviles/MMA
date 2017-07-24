@@ -1,0 +1,6 @@
+"0","iglesias <- iglesias[,-1]"
+"0","#Integrando el Mapa"
+"0","ggmap(ensenadaMan_map) +"
+"0","  geom_point(aes(long, lat, color = DISTRITO), data = iglesias) +"
+"0","  ggtitle(""Iglesias Adventistas en Ensenada y Maneadero"") +"
+"0","  theme(plot.title = element_text(hjust = 0.5))"

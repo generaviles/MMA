@@ -1,0 +1,5 @@
+"0","hist(ventasDat$`% de Ganancias`,"
+"0","     main = ""Historial de % de Ganancias en Pesos"","
+"0","     xlab = ""Porcentaje"","
+"0","     ylab = ""Frecuencia"","
+"0","     col = ""chartreuse"")"
